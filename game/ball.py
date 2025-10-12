@@ -20,10 +20,29 @@ class Ball:
 
         if self.y <= 0 or self.y + self.height >= self.screen_height:
             self.velocity_y *= -1
+            return 'wall_bounce'
+        return None
 
     def check_collision(self, player, ai):
-        if self.rect().colliderect(player.rect()) or self.rect().colliderect(ai.rect()):
-            self.velocity_x *= -1
+        ball_rect = self.rect()
+        
+        # Check collision with player paddle
+        if ball_rect.colliderect(player.rect()) and self.velocity_x < 0:
+            self.velocity_x = abs(self.velocity_x)  # Ensure ball moves away from player
+            # Add slight vertical variation based on where ball hits paddle
+            hit_pos = (self.y - player.y) / player.height - 0.5
+            self.velocity_y += hit_pos * 2
+            return 'paddle_hit'
+            
+        # Check collision with AI paddle  
+        elif ball_rect.colliderect(ai.rect()) and self.velocity_x > 0:
+            self.velocity_x = -abs(self.velocity_x)  # Ensure ball moves away from AI
+            # Add slight vertical variation based on where ball hits paddle
+            hit_pos = (self.y - ai.y) / ai.height - 0.5
+            self.velocity_y += hit_pos * 2
+            return 'paddle_hit'
+        
+        return None
 
     def reset(self):
         self.x = self.original_x

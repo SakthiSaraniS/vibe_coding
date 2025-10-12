@@ -1,5 +1,5 @@
 import pygame
-from game.game_engine import GameEngine
+from game.engine import GameEngine
 
 # Initialize pygame/Start application
 pygame.init()
@@ -27,6 +27,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.KEYDOWN:
+                if not engine.handle_keypress(event.key):
+                    running = False
 
         engine.handle_input()
         engine.update()
