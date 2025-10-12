@@ -1,6 +1,5 @@
 import pygame
 from game.game_engine import GameEngine
-
 # Initialize pygame/Start application
 pygame.init()
 
@@ -24,13 +23,23 @@ def main():
     running = True
     while running:
         SCREEN.fill(BLACK)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+        
+        # Handle pause input and other events
+        result = engine.handle_pause_input()
+        if result == "exit":
+            running = False
+            continue
 
         engine.handle_input()
         engine.update()
         engine.render(SCREEN)
+
+        # Check for game over + replay logic
+        result = engine.check_game_over_and_replay(SCREEN)
+        if result == "exit":
+            running = False
+        elif result == "replay":
+            continue
 
         pygame.display.flip()
         clock.tick(FPS)
