@@ -35,6 +35,11 @@ def main():
         pygame.display.flip()
         clock.tick(FPS)
 
+        if engine.is_waiting_for_replay():
+            exit_requested = engine.handle_replay_input()
+            if exit_requested:
+                running = False
+
     pygame.quit()
 
 if __name__ == "__main__":
