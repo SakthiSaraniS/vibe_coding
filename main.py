@@ -35,6 +35,11 @@ def main():
         pygame.display.flip()
         clock.tick(FPS)
 
+        if engine.is_game_over():
+            pygame.display.flip()      
+            pygame.time.delay(3000)    
+            running = False 
+
     pygame.quit()
 
 if __name__ == "__main__":
