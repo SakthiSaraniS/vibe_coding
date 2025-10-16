@@ -6,6 +6,8 @@ import sys
 # Initialize pygame
 pygame.init()
 pygame.font.init()
+pygame.mixer.init()  # Initialize sound system
+
 
 # Screen dimensions
 WIDTH, HEIGHT = 800, 600
