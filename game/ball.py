@@ -14,15 +14,23 @@ class Ball:
         self.velocity_x = random.choice([-5, 5])
         self.velocity_y = random.choice([-3, 3])
 
-    def move(self):
+    def move(self, player=None, ai=None):
+        # Move the ball
         self.x += self.velocity_x
         self.y += self.velocity_y
 
+        # Bounce off top/bottom walls
         if self.y <= 0 or self.y + self.height >= self.screen_height:
             self.velocity_y *= -1
 
-    def check_collision(self, player, ai):
-        if self.rect().colliderect(player.rect()) or self.rect().colliderect(ai.rect()):
+        # Check collision with player paddle
+        if player and self.rect().colliderect(player.rect()):
+            self.x = player.x + player.width  # reposition to avoid overlap
+            self.velocity_x *= -1
+
+        # Check collision with AI paddle
+        if ai and self.rect().colliderect(ai.rect()):
+            self.x = ai.x - self.width
             self.velocity_x *= -1
 
     def reset(self):
