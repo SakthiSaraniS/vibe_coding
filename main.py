@@ -3,6 +3,8 @@ from game.game_engine import GameEngine
 
 # Initialize pygame/Start application
 pygame.init()
+pygame.font.init()
+
 
 # Screen dimensions
 WIDTH, HEIGHT = 800, 600
